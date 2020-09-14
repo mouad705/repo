@@ -1,7 +1,5 @@
 <?php
 require_once('UtilisateurFunction.php');
-require_once('connexion.php');
-
 
 $nom = $_POST['nom'];
 $pseudo = $_POST['pesudo'];

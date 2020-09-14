@@ -9,7 +9,7 @@ if (isset($_POST))
   $quantite=$_POST['quantite'];
   $total=$_POST['total'];
   createdetailcommand($id_cmd,$id_produit,$nom_produit,$prix,$quantite,$total);
-  echo 1;
+  
 
 
 }

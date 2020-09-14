@@ -35,9 +35,9 @@ function getAllProduct()
         <td>'.$data[9].'</td>
 
         <td>
-        <button id="edite" class="btn btn-primary">Edite</button>
-        <button id="delete" class="btn btn-danger">Delete</button>
-        <button id="view" class="btn btn-default">View</button>
+        <button id="edite" class="btn btn-primary"><i class="icon-edit"></i></button>
+        <button id="delete" class="btn btn-danger"><i class="icon-trash"></i></button>
+        <button id="view" class="btn btn-default"><i class="icon-eye-open"></i></button>
 
         </td>
 
@@ -50,37 +50,54 @@ function getAllProduct()
 }
 
 // creer un user
-function createProduct($id,$designation,$Command, $unite, $quantit, $color, $date,$imges,$etat,$stocklimit)
+function createProduct($id,$designation,$categorie, $unite, $quantit, $color, $date,$imges,$etat,$stocklimit)
 {
     try {
         $con = getDatabaseConnexion();
-        $sql = "INSERT INTO `produit`(`id`,`designation`,`Command`, `unite`, `quantit`, `color`, `date`, `imges`, `etat`, `stocklimit`)
-        VALUES ('$id','$designation','$Command','$unite','$quantit','$color','$date','$imges','$etat','$stocklimit')";
+        $sql = "INSERT INTO `produit`(`id`,`designation`,`categorie`, `unite`, `quantit`, `color`, `date`, `imges`, `etat`, `stocklimit`)
+        VALUES ('$id','$designation','$categorie','$unite','$quantit','$color','$date','$imges','$etat','$stocklimit')";
         $con->exec($sql);
     } catch (PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
     }
 }
 
-//recupere un user
+//recupere un produit
 function readProduct($id)
 {
     $con = getDatabaseConnexion();
     $requete = "SELECT * from produit where id = '$id' ";
     $stmt = $con->query($requete);
-    $row = $stmt->fetchAll();
-    if (!empty($row)) {
-        return $row[0];
-    }
+    $row = $stmt->fetch();
+     
+          
+    
+    
+    echo $row[4];
+
 }
 
-//met � jour le user
-function updateProduct($id,$designation,$Command, $unite, $quantit, $color, $date,$imges,$etat,$stocklimit)
+//met � jour unproduit
+function updateProduct($id,$designation,$categorie, $unite, $quantit, $color, $date,$imges,$etat,$stocklimit)
 {
     $sql = "errur";
     try {
         $con = getDatabaseConnexion();
-        $requete = "UPDATE `produit` SET `designation`='$designation',`Command`='$Command',`unite`='$unite',`quantit`='$quantit',`color`='$color',`date`='$date',`imges`='$imges',`etat`='$etat',`stocklimit`='$stocklimit' WHERE id='$id' ";
+        $requete = "UPDATE `produit` SET `designation`='$designation',`categorie`='$categorie',`unite`='$unite',`quantit`='$quantit',`color`='$color',`date`='$date',`imges`='$imges',`etat`='$etat',`stocklimit`='$stocklimit' WHERE id='$id' ";
+        $stmt = $con->query($requete);
+    } catch (PDOException $e) {
+        echo $sql . "<br>" . $e->getMessage();
+    }
+}
+
+//Modifier la quantite de produite
+
+function UPDATE_QUANTITE_PRODUIT($total_sp,$id_pp)
+{
+    $sql = "errur";
+    try {
+        $con = getDatabaseConnexion();
+        $requete = "UPDATE `produit` SET `quantit`=`quantit`-'$total_sp' WHERE id='$id_pp' ";
         $stmt = $con->query($requete);
     } catch (PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();

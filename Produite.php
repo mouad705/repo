@@ -440,8 +440,31 @@
             data: {
                 id: id
             },
+            
             success: function(data) {
-                document.getElementById('tablevarient').innerHTML = data;
+                var row=JSON.parse(data);
+                var ligne="";
+                for(var val=0;val<row.length;val++){
+                console.log(row);
+                  
+                    ligne+='<tr>';
+                        ligne+='<td>'+row[val].id+'</td>';
+                        ligne+='<td><img width="50" height="50" src="./'+row[val].images+'"></td>';
+                        ligne+='<td>'+row[val].designation+'</td>';
+                        ligne+='<td>'+row[val].unite+'</td>';
+                        ligne+='<td>'+row[val].rapport+'</td>';
+                        ligne+='<td>'+row[val].prix_vent+'</td>';
+                        ligne+='<td>'+row[val].description+'</td>';
+                        ligne+='<td>';
+                        ligne+='<button id="edite" class="btn btn-primary"><i class="icon-edit"></i></button>';
+                        ligne+='<button id="delete" class="btn btn-danger"><i class="icon-trash"></i></button>';
+                        ligne+='<button id="view" class="btn btn-default"><i class="icon-eye-open"></i></button>';
+                        ligne+='</td>';
+                        ligne+='</tr>';
+                           
+        }
+        
+      $("#tablevarient").html(ligne);
             }
 
         });
@@ -453,7 +476,7 @@
 
 <!--  Modal add varient  -->
 
-<div class="modal fade modal-lg" id="modaladdvarient" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div style="display:none;" class="modal fade modal-lg" id="modaladdvarient" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog " role="document">
         <form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
             <div class="modal-content">
@@ -624,7 +647,6 @@
         var design = $("#sp_designation").val();
         var unite = $("#sp_unite").val();
         var rapport = $("#sp_rapport").val();
-        var quantit = $("#sp_quantite").val();
         var prix_vent = $("#sp_prix_vent").val();
         var description = $("#sp_description").val();
         var imges = $("#sp_imges").prop("files")[0];
@@ -633,7 +655,6 @@
         str.append("sp_designation", design);
         str.append("sp_unite", unite);
         str.append("sp_rapport", rapport);
-        str.append("sp_quantite", quantit);
         str.append("sp_prix_vent", prix_vent);
         str.append("sp_description", description);
         str.append("sp_imges", imges);
@@ -665,7 +686,6 @@
         var design = $("#ed_sp_designation").val();
         var unite = $("#ed_sp_unite").val();
         var rapport = $("#ed_sp_rapport").val();
-        var quantit = $("#ed_sp_quantite").val();
         var prix_vent = $("#ed_sp_prix_vent").val();
         var description = $("#ed_sp_description").val();
         var imges = $("#ed_sp_imge").prop("files")[0];
@@ -676,7 +696,6 @@
         str.append("ed_sp_designation", design);
         str.append("ed_sp_unite", unite);
         str.append("ed_sp_rapport", rapport);
-        str.append("ed_sp_quantite", quantit);
         str.append("ed_sp_prix_vent", prix_vent);
         str.append("ed_sp_description", description);
         str.append("ed_sp_imge", imges);
@@ -747,7 +766,6 @@
             var d2 = tr.find('td:eq(2)').text();
             var d3 = tr.find('td:eq(3)').text();
             var d4 = tr.find('td:eq(4)').text();
-            var d5 = tr.find('td:eq(5)').text();
             var d6 = tr.find('td:eq(6)').text();
             var d7 = tr.find('td:eq(7)').text();
 
@@ -755,7 +773,6 @@
             $("#ed_sp_designation").val(d2);
             $("#ed_sp_unite").val(d3);
             $("#ed_sp_rapport").val(d4);
-            $("#ed_sp_quantite").val(d5);
             $("#ed_sp_prix_vent").val(d6);
             $("#ed_sp_description").val(d7);
             $("#ed_sp_view_img").attr('src', d1);
@@ -813,6 +830,7 @@
         $.ajax({
             type: "POST",
             url: "Config/dossier_produit/view.php",
+            data:{action:"allproduct"},
             cache: false,
             dataType: "html",
             success: function(data) {
@@ -850,6 +868,7 @@
         str.append("ed_imges", imges);
         str.append("ed_stocklimit", stocklimit);
         str.append("ed_etat", etat);
+        str.append("action", "edit");
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -867,7 +886,7 @@
 
 </script>
 <!--    modal list varient de produite     -->
-<div id="modallistvarient" style="width: 983px;left: 40%;" class="modal fade" role="dialog">
+<div id="modallistvarient" style="width: 983px;left: 40%;display:none;" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -884,7 +903,6 @@
                             <th>DESIGNATION</th>
                             <th>UNITE</th>
                             <th>RAPPORT</th>
-                            <th>QUANTITE</th>
                             <th>PRIX VENT</th>
                             <th>DESCRIPTION</th>
                             <th>ACTION</th>

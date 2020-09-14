@@ -42,9 +42,9 @@ function getAllSousProduct()
 
 
         <td>
-        <button id="edite" class="btn btn-primary">Edite</button>
-        <button id="delete" class="btn btn-danger">Delete</button>
-        <button id="view" class="btn btn-default">View</button>
+        <button id="edite" class="btn btn-primary"><i class="icon-edit"></i></button>
+        <button id="delete" class="btn btn-danger"><i class="icon-trash"></i></button>
+        <button id="view" class="btn btn-default"><i class="icon-eye-open"></i></button>
 
         </td>
 
@@ -61,44 +61,45 @@ function createSousProduct($id,$id_pp,$designation,$unite,$rapport,$prix_vent,$d
 {
     try {
         $con = getDatabaseConnexion();
-        $sql = "INSERT INTO `sous_produit`(`id`,`id_pp`,`designation`,`unite`,`rapport`, `prix_vent`, `description`,`images`)
-        VALUES ('$id','$id_pp','$designation','$unite','$rapport',$prix_vent','$description','$imges')";
+        $sql = "INSERT INTO `sous_produit`(`id`,`id_pp`,`designation`,`unite`,`rapport`,`prix_vent`,`description`,`images`)
+        VALUES ('$id','$id_pp','$designation','$unite','$rapport','$prix_vent','$description','$imges')";
         $con->exec($sql);
     } catch (PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
     }
 }
 
-//recupere un user
-function readSousProduct($id_pp)
+//recupere un user par id produit pere
+function readSousProduct($id)
 {
     $con = getDatabaseConnexion();
-    $requete = "SELECT * from sous_produit where id_pp = '$id_pp' ";
+    $requete = "SELECT * from sous_produit where id_pp = '$id' ";
     $stmt = $con->query($requete);
-        while ($data=$stmt->fetch())
+    $ligne=array();
+        while ($data=$stmt->fetch(PDO::FETCH_ASSOC))
         {
-            $ligne='
-            <tr>
-            <td>'.$data[0].'</td>
-            <td><img width="50" height="50" src="./'.$data[7].'" ></td>
-            <td>'.$data[2].'</td>
-            <td>'.$data[3].'</td>
-            <td>'.$data[4].'</td>
-            <td>'.$data[5].'</td>
-            <td>'.$data[6].'</td>
+            $ligne[]=$data;
+            
 
-
-            <td>
-            <button id="edite" class="btn btn-primary">Edite</button>
-            <button id="delete" class="btn btn-danger">Delete</button>
-            <button id="view" class="btn btn-default">View</button>
-
-            </td>
-
-            </tr>
-            ';
-            echo $ligne;
         }
+        echo json_encode($ligne);
+
+}
+//* recupere varient produit par code bar
+
+function getvarient($id)
+{
+    $con = getDatabaseConnexion();
+    $requete = "SELECT * from sous_produit where id = '$id' ";
+    $stmt = $con->query($requete);
+    $ligne=array();
+        while ($data=$stmt->fetch(PDO::FETCH_ASSOC))
+        {
+            $ligne[]=$data;
+            
+
+        }
+        echo json_encode($ligne);
 
 }
 
@@ -145,10 +146,10 @@ function SearchSousProduct($id)
             <tr>
             <td>'.$data[0].'</td>
             <td><img class="rounded" style="width: 50px; height: 50px" src="./'.$data[7].'" ></td>
-
+            <td style="display:none;">'.$data[1].'</td>
             <td>'.$data[2].'</td>
-            <td>'.$data[4].'</td>
-            <td>'.$data[5].'</td>
+            <td style="display:none;">'.$data[4].'</td>
+            <td style="display:none;">'.$data[5].'</td>
             <td>
             <button id="add" class="btn btn-primary">
             <i class="icon-plus"></i>

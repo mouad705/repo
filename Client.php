@@ -1,9 +1,9 @@
-﻿<div class="row-fluid">
+<div class="row-fluid">
     <div class="span12">
         <div class="widget-box">
 
             <div class="widget-content nopadding">
-                <button type="button" data-toggle="modal" data-target="#ajouter" class="btn btn-primary">Ajouter Nouveau
+                <button onclick="$('#ajouterclient').modal('show')" type="button" data-toggle="modal" data-target="#ajouter" class="btn btn-primary">Ajouter Nouveau
                     Client</button>
             </div>
         </div>
@@ -13,59 +13,78 @@
 <!-- zone pour client form-->
 
 
-<div class="row-fluid">
-    <div class="span12">
-        <div class="widget-box">
-            <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-                <h5>Form validation</h5>
-            </div>
-            <div class="widget-content nopadding">
-                <form class="form-horizontal" method="post" action="#" id="addclient" enctype="multipart/form-data">
-                    <div class="control-group">
-                        <label class="control-label">Nom :</label>
-                        <div class="controls">
-                            <input type="text" name="nom" id="nom">
-                        </div>
+
+<div id="ajouterclient" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <form class="form-horizontal" method="post" action="#" id="addclient" enctype="multipart/form-data">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Ajouter Nouveau Client</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content nopadding">
+
+                            <div class="control-group">
+                                <label class="control-label">Nom :</label>
+                                <div class="controls">
+                                    <input type="text" name="nom" id="nom">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Tel :</label>
+                                <div class="controls">
+                                    <input type="text" name="tel" id="tel">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Adresse :</label>
+                                <div class="controls">
+                                    <input type="text" name="adresse" id="adresse">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Ville :</label>
+                                <div class="controls">
+                                    <input type="text" name="ville" id="ville">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Pays :</label>
+                                <div class="controls">
+                                    <select name="paye" id="paye">
+                                        <option value="Maroc">Maroc</option>
+                                        <option value="Algére">Algére</option>
+                                        <option value="France">France</option>
+                                        <option value="Espane">Espane</option>
+                                        <option value="Tunise">Tunise</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Tel :</label>
-                        <div class="controls">
-                            <input type="text" name="tel" id="tel">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Adresse :</label>
-                        <div class="controls">
-                            <input type="text" name="adresse" id="adresse">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Ville :</label>
-                        <div class="controls">
-                            <input type="text" name="ville" id="ville">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Pays :</label>
-                        <div class="controls">
-                            <select name="paye" id="paye">
-                                <option value="Maroc">Maroc</option>
-                                <option value="Algére">Algére</option>
-                                <option value="France">France</option>
-                                <option value="Espane">Espane</option>
-                                <option value="Tunise">Tunise</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <input onclick="javascript:addclient()" type="button" value="Validate" class="btn btn-success">
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
+      </div>
+      <div class="modal-footer">
+        <div class="form-actions">
+            <button onclick="javascript:addclient()" type="button"  class="btn btn-success">Ajouter</button>
+             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+      </form>
+  </div>
+</div>
 
 <!-- fin -->
 
@@ -80,79 +99,59 @@
     function load() {
         $.ajax({
             type: 'POST',
-            url: './Config/dossier_client/view.php',
+            url: 'Config/dossier_client/view.php',
+            data:{allclient:"true"},
             cache: false,
-            success: function(data) {
-            var myObj = JSON.parse(data);
-            alert(myObj.nom);
-
-            var ligne = '<tr>'+
-            '<td>' + myObj.id_clt + '</td>'+
-            '<td>' + myObj.nom_clt + '</td>'+
-            '<td>' + myObj.tel_clt + '</td>'+
-            '<td>' + myObj.adresse_clt + '</td>'+
-            '<td>' + myObj.ville_clt + '</td>'+
-            '<td>' + myObj.paye_clt + '</td>'+
-            '<td>'+
-            '<button id="edite" class="btn btn-primary">Edite</button>'+
-            '<button id="delete" class="btn btn-danger">Delete</button>'+
-            '<button id="view" class="btn btn-default">View</button>'+
-
-            '</td>'+
-
-          '</tr>';
-                $('.client').html(ligne);
-                
+            success: function (data) {
+                $('.client').html(data);
             }
         });
     }
 
     function addclient() {
-        var nom = $('#nom').val();
-        var tel = $('#tel').val();
-        var adresse = $('#adresse').val();
-        var ville = $('#ville').val();
-        var paye = $('#paye').val();
-        $.ajax({
-            type: "POST",
-            url: "Config/dossier_client/add.php",
-            data: {
-                nom: nom,
-                tel: tel,
-                adresse: adresse,
-                ville: ville,
-                paye: paye
-            },
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                if (data == 1) {
-                    $('#ajouter').modal('hide');
-                    Swal.fire(
-                        'Good job!',
-                        'New Record has been inserted',
-                        'success'
-                    );
-                    load();
-                } else
-                if (data == 0) {
-                    Swal.fire(
-                        'oops!',
-                        'echec opertion',
-                        'warning'
-                    );
-                }
+      var nom = $('#nom').val();
+      var tel = $('#tel').val();
+      var adresse = $('#adresse').val();
+      var ville = $('#ville').val();
+      var paye = $('#paye').val();
+      $.ajax({
+          type: "POST",
+          url: "Config/dossier_client/add.php",
+          data: {
+              nom: nom,
+              tel: tel,
+              adresse: adresse,
+              ville: ville,
+              paye: paye
+          },
+          cache: false,
+
+          success: function(data) {
+
+              if (data == 1) {
+                  Swal.fire(
+                      'Good job!',
+                      'New Record has been inserted',
+                      'success'
+                  );
+                  load();
+              } else
+              if (data == 0) {
+                  Swal.fire(
+                      'oops!',
+                      'echec opertion',
+                      'warning'
+                  );
+              }
 
 
 
-            }
+          }
 
-        });
+      });
 
 
-    }
-
+  }
 </script>
 
 
@@ -161,7 +160,8 @@
         <h5>Liste Client</h5>
     </div>
     <div class="widget-content nopadding">
-        <table id="clienttable" cellpadding="0" cellspacing="0" border="0" class="table table-bordered data-table" width="100%">
+        <table id="clienttable" cellpadding="0" cellspacing="0" border="0" class="table table-bordered data-table"
+            width="100%">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -174,11 +174,11 @@
                 </tr>
             </thead>
             <tbody class="client">
-                <?php
-            //    require_once('Config/dossier_client/ClientFunction.php');
-              //  getAllClients();
+            <!--    <?php
+                require_once('Config/dossier_client/ClientFunction.php');
+                getAllClients();
 
-                ?>
+                ?>-->
             </tbody>
             <tfoot>
                 <tr>
@@ -199,9 +199,9 @@
 
 <!--/.module-->
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       load();
-        $('.client').on('click', '#edite', function() {
+        $('.client').on('click', '#edite', function () {
 
             var tr = $(this).closest('tr');
             var d0 = tr.find('td:eq(0)').text();
@@ -221,7 +221,7 @@
             $('#modaledite').modal('show');
         });
 
-        $('.client').on('click', '#delete', function() {
+        $('.client').on('click', '#delete', function () {
             var tr = $(this).closest('tr');
             var id = tr.find('td:eq(0)').text();
             if (confirm('Are you Sure you want to delete this client')) {
@@ -232,7 +232,7 @@
                     data: {
                         id: id
                     },
-                    success: function(data) {
+                    success: function (data) {
                         if (data == 1) {
                             Swal.fire(
                                 'Good job!',
@@ -279,7 +279,7 @@
                 ed_paye: ed_paye
             },
             cache: false,
-            success: function(data) {
+            success: function (data) {
                 if (data == 1) {
                     Swal.fire(
                         'Good job!',
@@ -306,7 +306,6 @@
 
 
     }
-
 </script>
 
 <!--  Modal edite client -->
@@ -315,7 +314,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="modaledite" tabindex="-1" style="display: none;" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal fade" id="modaledite" tabindex="-1" style="display: none;" role="dialog"
+    aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form id="editeclient" enctype="multipart/form-data" action="#" method="post"></form>
         <div class="modal-content">

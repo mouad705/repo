@@ -58,6 +58,8 @@ function createdetailcommand($id_cmd,$id_produit,$nom_produit,$prix,$quantite,$t
         'quantite'=>$quantite,
         'total'=>$total
       ));
+      $last_id = $con->lastInsertId();
+      echo $last_id;
     } catch (PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
     }

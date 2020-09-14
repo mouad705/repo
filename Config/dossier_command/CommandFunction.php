@@ -58,6 +58,8 @@ function createCommand($id_client,$nom,$tv,$remis,$etat,$prix_total)
         'etat'=>$etat,
         'prix_total'=>$prix_total
       ));
+      $last_id = $con->lastInsertId();
+      echo $last_id;
     } catch (PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
     }

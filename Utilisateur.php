@@ -6,70 +6,20 @@
     <div class="span12">
         <div class="widget-box">
             <div class="widget-content nopadding">
-                <button type="button" data-toggle="modal" data-target="#test" class="btn btn-primary">
-                    Ajouter Nouveau Client
+                <button type="button" data-toggle="modal" data-target="#ajouterusers" class="btn btn-primary">
+                    Ajouter Nouveau Utilisateur
                 </button>
             </div>
         </div>
     </div>
 </div>
 <!-- Modal -->
-<div class="row-fluid">
-    <div class="span12">
-        <div class="widget-box">
-            <div class="widget-title">
-                <span class="icon"> <i class="icon-info-sign"></i> </span>
-                <h5>Form validation</h5>
-            </div>
-            <div class="widget-content nopadding">
-                <form id="adduser" class="form-horizontal" enctype="multipart/form-data" method="post" action="">
-                    <div class="control-group">
-                        <label class="control-label">Nom</label>
-                        <div class="controls">
-                            <input type="text" name="nom" id="nom" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Pesudo</label>
-                        <div class="controls">
-                            <input type="text" name="pesudo" id="pesudo" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Mots de Pass :</label>
-                        <div class="controls">
-                            <input type="text" name="pass" id="pass" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Description</label>
-                        <div class="controls">
-                            <input type="text" name="description" id="description" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Image :</label>
-                        <div class="controls">
-                            <img width="200" height="250" id="u" class="img-fluid img-thumbnail"
-                                src="https://via.placeholder.com/800x500" alt="image" />
-                            <input
-                                onchange="document.getElementById('u').src = window.URL.createObjectURL(this.files[0])"
-                                id="imges" name="imges" type="file" />
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <input onclick="javascript:adduser()" type="button" value="Validate" class="btn btn-success" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <div class="widget-box">
     <div class="widget-title">
         <span class="icon"><i class="icon-th"></i></span>
-        <h5>Data table</h5>
+        <h5>Liste Utilisateur</h5>
     </div>
     <div class="widget-content nopadding">
         <table id="userdata" class="table table-bordered data-table">
@@ -170,9 +120,10 @@ getAllUsers();
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                swal(" user has been deleted!", {
+                swal(" user has been iserted!", {
                     icon: "success",
                 });
+                $('#ajouterusers').modal('hide');
                 load();
             }
         };
@@ -192,11 +143,6 @@ getAllUsers();
     }
 
     $(document).ready(function () {
-/*
-('.data-table').dataTable({
-    "bServerSide": true,
-    "bDestroy": true
-});
 
         /********show recorde in modal********* */
         $("#userdata").on("click", "#edite", function () {
@@ -406,62 +352,62 @@ getAllUsers();
 <script src="js/matrix.js"></script>
 <script src="js/matrix.tables.js"></script>
 
-<div class="modal fade" id="test" tabindex="-1" style="display: none;" role="dialog">
+<div  class="modal fade" id="ajouterusers" tabindex="-1" style="display: none;" role="dialog">
     <div class="modal-dialog" role="document">
-        <form id="testform" enctype="multipart/form-data" action="./Config/dossier_utilisateur/edite.php" method="post">
+          <form id="adduser" class="form-horizontal" enctype="multipart/form-data" method="post" action="">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edite User</h5>
+                    <h5 class="modal-title">Ajouter Nouveau Utilisateur</h5>
                 </div>
-
                 <div class="modal-body">
-                    <table id="formadd">
-                        <tr>
-                            <td><label for="">Nom :</label></td>
-                            <td>
-                                <input type="text" name="nom" id="nom" placeholder="saisir votre nom" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="">Pesudo :</label></td>
-                            <td>
-                                <input type="text" name="pesudo" id="pesudo" aria-describedby="helpId"
-                                    placeholder="saisir votre pesudo" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="">Mot de Pass :</label></td>
-                            <td>
-                                <input type="text" name="pass" id="pass" aria-describedby="helpId"
-                                    placeholder="saisir mot de pass" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="">Description :</label></td>
-                            <td>
-                                <input type="text" name="description" id="description" aria-describedby="helpId"
-                                    placeholder="saisir la description" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label class="control-label" for="basicinput">Image :</label>
-                            </td>
-                            <td width="230px">
-                                <img width="200" height="250" id="u" class="img-fluid img-thumbnail"
-                                    src="https://via.placeholder.com/800x500" alt="image" />
-                                <input
-                                    onchange="document.getElementById('u').src = window.URL.createObjectURL(this.files[0])"
-                                    id="imges" name="imges" type="file" />
-                            </td>
-                        </tr>
-                    </table>
+                  <div class="row-fluid">
+                      <div class="span12">
+                          <div class="widget-box">
+                              <div class="widget-content nopadding">
+                                      <div class="control-group">
+                                          <label class="control-label">Nom</label>
+                                          <div class="controls">
+                                              <input type="text" name="nom" id="nom" />
+                                          </div>
+                                      </div>
+                                      <div class="control-group">
+                                          <label class="control-label">Pesudo</label>
+                                          <div class="controls">
+                                              <input type="text" name="pesudo" id="pesudo" />
+                                          </div>
+                                      </div>
+                                      <div class="control-group">
+                                          <label class="control-label">Mots de Pass :</label>
+                                          <div class="controls">
+                                              <input type="text" name="pass" id="pass" />
+                                          </div>
+                                      </div>
+                                      <div class="control-group">
+                                          <label class="control-label">Description</label>
+                                          <div class="controls">
+                                              <input type="text" name="description" id="description" />
+                                          </div>
+                                      </div>
+                                      <div class="control-group">
+                                          <label class="control-label">Image :</label>
+                                          <div class="controls">
+                                              <img width="200" height="250" id="u" class="img-fluid img-thumbnail"
+                                                  src="https://via.placeholder.com/800x500" alt="image" />
+                                              <input
+                                                  onchange="document.getElementById('u').src = window.URL.createObjectURL(this.files[0])"
+                                                  id="imges" name="imges" type="file" />
+                                          </div>
+                                      </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         Close
                     </button>
-                    <button type="submit" class="btn btn-primary">add</button>
+                        <input onclick="javascript:adduser()" type="button" value="Validate" class="btn btn-success" />
                 </div>
             </div>
         </form>

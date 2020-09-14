@@ -1,10 +1,14 @@
 <?php
 require_once('ProduitFunction.php');
 
+if(isset($_POST["action"]) && $_POST["action"]=="edit")
+
+{
+
 
     $id=$_POST['ed_id'];
     $designation=$_POST['ed_designation'];
-    $Command=$_POST['ed_Command'];
+    $categorie=$_POST['ed_categorie'];
     $unite=$_POST['ed_unite'];
     $quantite=$_POST['ed_quantit'];
     $color=$_POST['ed_color'];
@@ -16,7 +20,7 @@ require_once('ProduitFunction.php');
     if(empty($_FILES['ed_imges']['name']))
     {
         $images=$_POST['ed_imges'];
-        updateProduct($id,$designation,$Command,$unite,$quantite,$color,$date,$images, $etat,$stocklimit);
+        updateProduct($id,$designation,$categorie,$unite,$quantite,$color,$date,$images, $etat,$stocklimit);
     }
     else
     {
@@ -25,11 +29,19 @@ require_once('ProduitFunction.php');
 
 $uploadfile = $uploaddir . basename($_FILES['ed_imges']['name']);
 if (move_uploaded_file($_FILES['ed_imges']['tmp_name'], $uploadfile)) {
-    updateProduct($id,$designation,$Command,$unite,$quantite,$color,$date, 'uploads/' . $images, $etat,$stocklimit);
+    updateProduct($id,$designation,$categorie,$unite,$quantite,$color,$date, 'uploads/' . $images, $etat,$stocklimit);
     echo 1;
 } else {
     echo 0;
 }
-    # code...
+
+}
+    if (isset($_POST["total_sp"]) && isset($_POST["id_pp"])) {
+
+        $total_sp=$_POST["total_sp"];
+        $id_pp=$_POST["id_pp"];
+        UPDATE_QUANTITE_PRODUIT($total_sp,$id_pp);
+        # code...
+    }
 
 ?>

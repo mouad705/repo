@@ -23,27 +23,33 @@ function getAllClients()
     $rows = $con->query($requete);
     while ($data = $rows->fetch()) {
 
+       $ligne =
+       '<tr>'.
+      '<td>' .$data[0]. '</td>'.
+      '<td>' .$data[1]. '</td>'.
+      '<td>' .$data[2]. '</td>'.
+      '<td>' .$data[3]. '</td>'.
+      '<td>' .$data[4]. '</td>'.
+      '<td>' .$data[5]. '</td>'.
+      '<td>'.
+      '<button id="edite" class="btn btn-primary"><i class="icon-edit"></i></button>'.
+      '<button id="delete" class="btn btn-danger"><i class="icon-trash"></i></button>'.
+      '<button id="view" class="btn btn-default"><i class="icon-eye-open"></i></button>'.
 
-$ligne=array(
-  "id_clt"=> $data[0],
-    "nom_clt"=>$data[1],
-      "tel_clt"=>$data[2],
-      "adresse_clt"=>$data[3],
-      "ville_clt"=>$data[4],
-      "paye"=>$data[5]
-    );
+      '</td>'.
 
-        echo json_encode(array("getall"=>$ligne));
+    '</tr>';
+    echo $ligne;
     }
 }
 
 // creer un user
-function createClient($nom, $tel, $adresse, $ville, $paye)
+function createClient($nom,$tel,$adresse,$ville,$paye)
 {
     try {
         $con = getDatabaseConnexion();
-        $sql = "INSERT INTO client (nom, tel, adresse, ville,paye)
-                VALUES ('$nom', '$tel', '$adresse' ,'$ville','$paye')";
+        $sql = "INSERT INTO client (nom,tel,adresse,ville,paye)
+                VALUES ('$nom','$tel','$adresse','$ville','$paye')";
         $con->exec($sql);
     } catch (PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
@@ -51,9 +57,9 @@ function createClient($nom, $tel, $adresse, $ville, $paye)
 }
 
 //recupere un user
-function readClient()
+function readClient($id)
 {
-$id=89;
+
     $con = getDatabaseConnexion();
     $requete = "SELECT * from client where id = '$id' ";
     $row = $con->query($requete);
@@ -61,7 +67,7 @@ $id=89;
 while ($data=$row->fetch())
 {
 
-echo json_encode(array("id"=>$data[0],"nom"=>$data[1]));
+echo $data['nom'];
 
 }
 

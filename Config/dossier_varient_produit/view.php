@@ -22,4 +22,9 @@ if (isset($_GET['str']))
     $id=$_GET['str'];
     SearchSousProduct($id);
 }
+if (isset($_POST['id_sp'])) {
+
+$id=$_POST['id_sp'];
+    getvarient($id);
+}
 ?>

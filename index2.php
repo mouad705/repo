@@ -1,11 +1,72 @@
 
+<?php
+
+    class Crypter{
+
+       var $key;
+
+       /*--------------------------------
+         le constructeur de la classe.
+         --------------------------------*/
+       function __construct($clave){
+          $this->key = $clave;
+       }
+
+       function setKey($clave){
+          $this->key = $clave;
+       }
+
+       function keyED($txt) {
+          $encrypt_key = md5($this->key);
+          $ctr=0;
+          $tmp = "";
+          for ($i=0;$i<strlen($txt);$i++) {
+             if ($ctr==strlen($encrypt_key)) $ctr=0;
+             $tmp.= substr($txt,$i,1) ^ substr($encrypt_key,$ctr,1);
+             $ctr++;
+          }
+          return $tmp;
+       }
+
+       function encrypt($txt){
+          srand((double)microtime()*1000000);
+          $encrypt_key = md5(rand(0,32000));
+          $ctr=0;
+          $tmp = "";
+          for ($i=0;$i<strlen($txt);$i++){
+             if ($ctr==strlen($encrypt_key)) $ctr=0;
+             $tmp.= substr($encrypt_key,$ctr,1) .
+                 (substr($txt,$i,1) ^ substr($encrypt_key,$ctr,1));
+             $ctr++;
+          }
+          return base64_encode($this->keyED($tmp));
+       }
+
+       function decrypt($txt) {
+          $txt = $this->keyED(base64_decode($txt));
+          $tmp = "";
+          for ($i=0;$i<strlen($txt);$i++){
+             $md5 = substr($txt,$i,1);
+             $i++;
+             $tmp.= (substr($txt,$i,1) ^ $md5);
+          }
+          return $tmp;
+       }
+
+    }
+
+
+
+
+
+
+$chaine ='
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>G-VENT MINNOVA</title>
     <meta charset="UTF-8" />
-    <script src="Function.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
@@ -63,16 +124,15 @@
     <!--sidebar-menu-->
     <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
         <ul>
-            <li class="active"><a href="index.php"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-            <li><a href="index.php?id=client" onclick="" ><i class="icon icon-signal"></i> <span>Clients</span></a> </li>
-            <li><a href="index.php?id=produit" ><i class="icon icon-inbox"></i> <span>Produites</span></a> </li>
-            <li><a href="index.php?id=categorie" ><i class="icon icon-inbox"></i> <span>Categories</span></a> </li>
-            <li><a  href="index.php?id=command"  ><i class="icon icon-th"></i> <span>Command</span></a></li>
-            <li><a  href="index.php?id=utilisateur" ><i class="icon icon-fullscreen"></i> <span>Utilisateurs</span></a></li>
-            <li><a  href="index.php?id=vent"><i class="icon icon-th-list"></i> <span>Ventes</span> <span class="label label-important">3</span></a>
+            <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+            <li> <a id="clients" href="#" onclick="$(".container-fluid").load("Client.php");" ><i class="icon icon-signal"></i> <span>Clients</span></a> </li>
+            <li> <a id="produites" href="#" onclick="$(".container-fluid").load("Produite.php");"><i class="icon icon-inbox"></i> <span>Produites</span></a> </li>
+            <li><a id="Commands" href="#" onclick=" $(".container-fluid").load("Command.php");" ><i class="icon icon-th"></i> <span>Command</span></a></li>
+            <li><a id="utilisateurs" href="#" onclick="$(".container-fluid").load("Utilisateur.php");"><i class="icon icon-fullscreen"></i> <span>Utilisateurs</span></a></li>
+            <li><a id="ventes" href="#" onclick="$(".container-fluid").load("Vente.php");"><i class="icon icon-th-list"></i> <span>Ventes</span> <span class="label label-important">3</span></a>
 
             </li>
-            <li><a id="fournisseurs" href="index.php?id=fournisseur" ><i class="icon icon-tint"></i> <span>Fournisseures</span></a></li>
+            <li><a id="fournisseurs" href="" onclick=" $(".container-fluid").load("Fournisseur.php");"><i class="icon icon-tint"></i> <span>Fournisseures</span></a></li>
 
 
 
@@ -89,7 +149,7 @@
         <!--End-breadcrumbs-->
 
         <!--Action boxes-->
-        <div  class="container-fluid">
+        <div class="container-fluid">
             <div class="quick-actions_homepage">
                 <ul class="quick-actions">
                     <li class="bg_lb"> <a href="index.html"> <i class="icon-dashboard"></i> <span class="label label-important">20</span> My Dashboard </a> </li>
@@ -411,7 +471,7 @@
     <script src="js/matrix.popover.js"></script>
     <script src="js/jquery.dataTables.min.js"></script>
     <script src="js/matrix.tables.js"></script>
-
+<script src="Function.js"></script>
     <script type="text/javascript">
         // This function is called from the pop-up menus to transfer to
         // a different page. Ignore if the value returned is a null string:
@@ -436,30 +496,19 @@
             document.gomenu.selector.selectedIndex = 2;
         }
     </script>
-    <script type="text/javascript">
-
-    var myParam = location.search.split('id=')[1];
-      if (myParam == "vent") {
-       $('.container-fluid').load('./Vente.php');
-     }
-     if (myParam == "categorie") {
-      $('.container-fluid').load('./Categorie.php');
-    }
-    if (myParam == "client") {
-     $('.container-fluid').load('./Client.php');
-   }
-   if (myParam == "fournisseur") {
-    $('.container-fluid').load('./Fournisseur.php');
-  }
-  if (myParam == "utilisateur") {
-   $('.container-fluid').load('./Utilisateur.php');
- }
- if (myParam == "produit") {
-  $('.container-fluid').load('./Produite.php');
-}
-
-
-    </script>
 </body>
 
 </html>
+
+';
+
+$crypter = new Crypter($chaine);
+$chaine_crypter = $crypter->encrypt($chaine);
+echo $chaine_crypter;
+// Affiche une chaine comme:
+// UjFVPgI3A2kDblhtDy0HZAZ3ATAHfQonUScLdFJnVHQ
+
+$chaine_decrypter = $crypter->decrypt($chaine_crypter);
+//echo $chaine_decrypter
+// Affiche : chaine a crypter
+?>

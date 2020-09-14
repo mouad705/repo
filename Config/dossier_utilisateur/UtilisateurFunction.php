@@ -23,7 +23,7 @@ function getAllUsers()
     $con = getDatabaseConnexion();
     $requete = 'SELECT * from utilisateur';
     $rows = $con->query($requete);
-    while ($data=$rows->fetch()) 
+    while ($data=$rows->fetch())
     {
         $ligne='
         <tr>
@@ -35,10 +35,10 @@ function getAllUsers()
         <td>'.$data[4].'</td>
         <td>'.$data[6].'</td>
         <td>
-        <button id="edite" class="btn btn-primary">Edite</button>
-        <button id="delete" class="btn btn-danger">Delete</button>
-        <button id="view" class="btn btn-default">View</button>
-        
+        <button id="edite" class="btn btn-primary"><i class="icon-edit"></i></button>
+        <button id="delete" class="btn btn-danger"><i class="icon-trash"></i></button>
+        <button id="view" class="btn btn-default"><i class="icon-eye-open"></i></button>
+
         </td>
 
         </tr>
@@ -46,7 +46,7 @@ function getAllUsers()
         echo $ligne;
     }
 
-    
+
 }
 
 // creer un user
@@ -54,7 +54,7 @@ function createUser($nom, $logins, $passwords, $descriptions, $images, $etat)
 {
     try {
         $con = getDatabaseConnexion();
-        $sql = "INSERT INTO utilisateur (nom, logins, passwords, descriptions,images,etat) 
+        $sql = "INSERT INTO utilisateur (nom, logins, passwords, descriptions,images,etat)
 					VALUES ('$nom','$logins', '$passwords', '$descriptions','$images','$etat')";
         $con->exec($sql);
         header('Location: ../../index.php');
@@ -81,7 +81,7 @@ function updateUser($id, $nom, $logins, $passwords, $descriptions, $images, $eta
     $sql = "errur";
     try {
         $con = getDatabaseConnexion();
-        $requete = "UPDATE utilisateur set 
+        $requete = "UPDATE utilisateur set
 						nom = '$nom',
 						logins = '$logins',
 						passwords = '$passwords',

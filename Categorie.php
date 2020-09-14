@@ -1,9 +1,9 @@
-﻿<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <div class="row-fluid">
     <div class="span12">
         <div class="widget-box">
             <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-                <h5>Ajouter Nouveau Command</h5>
+                <h5>Ajouter Nouveau Categorie</h5>
             </div>
             <div class="widget-content nopadding">
                 <form id="categoreform" class="form-horizontal" method="post" action="#" enctype="multipart/form-data">
@@ -21,7 +21,7 @@
                     </div>
 
                     <div class="form-actions">
-                        <input onclick="javascript:addCommand()" type="button" value="Ajouter"
+                        <input onclick="javascript:addcategorie()" type="button" value="Ajouter"
                             class="btn btn-success">
                     </div>
                 </form>
@@ -36,15 +36,15 @@
 
 
 
-<!--Ajax add Command-->
+<!--Ajax add categorie-->
 <script>
-    function addCommand() {
+    function addcategorie() {
 
         var nom = $('#nom').val();
         var description = $('#description').val();
         $.ajax({
             type: 'POST',
-            url: 'Config/dossier_Command/add.php',
+            url: 'Config/dossier_categorie/add.php',
             data: {
                 nom: nom,
                 description: description
@@ -78,7 +78,7 @@
     function loadtable() {
         $.ajax({
             type: 'POST',
-            url: 'Config/dossier_Command/view.php',
+            url: 'Config/dossier_categorie/view.php',
 
             success: function (data) {
                 $('.client').html(data);
@@ -97,7 +97,7 @@
 
             swal({
                     title: "Are you sure?",
-                    text: "Are you Sure you wante to delete this Command!",
+                    text: "Are you Sure you wante to delete this Categorie!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -107,21 +107,21 @@
 
                         $.ajax({
                             type: 'POST',
-                            url: 'Config/dossier_Command/delete.php',
+                            url: 'Config/dossier_categorie/delete.php',
                             data: {
                                 id: id
                             },
                             cache: false,
                             success: function (data) {
                                 if (data == 1) {
-                                    swal("This Command has been deleted!", {
+                                    swal("This categorie has been deleted!", {
                                         icon: "success",
                                     });
                                     if (id == id) {
                                         tr.remove();
                                     }
                                 } else if (data == 0) {
-                                    swal("faild to delete this Command!");
+                                    swal("faild to delete this categorie!");
                                 }
                             }
 
@@ -134,7 +134,7 @@
 
     });
 
-    /****View data of Command */
+    /****View data of categorie */
     $(document).ready(function () {
         $('.client').on('click', '#view', function () {
             var tr = $(this).closest('tr');
@@ -149,7 +149,7 @@
                 '<td>' + description + '</td>' +
                 '</tr>';
             $('#viewmodal').modal('show');
-            $('#viewmodal #tableCommand').html(ligne);
+            $('#viewmodal #tablecategorie').html(ligne);
 
         });
 
@@ -159,7 +159,7 @@
 <br />
 <!-- Modal View Data -->
 <style>
-    #tableCommand tr td {
+    #tablecategorie tr td {
         height: 50px;
         font-size: large;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -176,7 +176,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table" id="tableCommand">
+                <table class="table" id="tablecategorie">
 
                 </table>
             </div>
@@ -202,21 +202,21 @@
             var nom = tr.find('td:eq(1)').text();
             var description = tr.find('td:eq(2)').text();
 
-            $('#editeCommand #ed_id').val(id);
-            $('#editeCommand #ed_nom').val(nom);
-            $('#editeCommand #ed_description').val(description);
+            $('#editecategorie #ed_id').val(id);
+            $('#editecategorie #ed_nom').val(nom);
+            $('#editecategorie #ed_description').val(description);
             $('#editemodal').modal('show');
 
         });
     });
 
-    function editeCommand() {
+    function editecategorie() {
         var ed_id = $('#ed_id').val();
         var ed_nom = $('#ed_nom').val();
         var ed_description = $('#ed_description').val();
         $.ajax({
             type: 'POST',
-            url: 'Config/dossier_Command/edite.php',
+            url: 'Config/dossier_categorie/edite.php',
             data: {
                 ed_id: ed_id,
                 ed_nom: ed_nom,
@@ -227,7 +227,7 @@
                 if (data == 1) {
                     swal({
                         title: "Good",
-                        text: "Command updated with Success",
+                        text: "Categorie updated with Success",
                         icon: "success",
                     });
                     loadtable();
@@ -258,7 +258,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table id="editeCommand">
+                    <table id="editecategorie">
 
                         <tbody>
                             <tr>
@@ -279,7 +279,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button onclick="javascript:editeCommand()" type="button" class="btn btn-primary">Save</button>
+                    <button onclick="javascript:editecategorie()" type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </form>
@@ -294,7 +294,7 @@
         <h5>Data table</h5>
     </div>
     <div class="widget-content nopadding">
-        <table id="Commandtable" cellpadding="0" cellspacing="0" border="0" class="table table-bordered "
+        <table id="categorietable" cellpadding="0" cellspacing="0" border="0" class="table table-bordered "
             width="100%">
             <thead>
                 <tr>
@@ -306,8 +306,8 @@
             </thead>
             <tbody class="client">
                 <?php
-                require_once('Config/dossier_Command/view.php');
-              $rows=getAllCommand();
+                require_once('Config/dossier_categorie/view.php');
+              $rows=getAllCategorie();
 while ($data = $rows->fetch()) {
     $ligne = '
      <tr>
