@@ -28,8 +28,8 @@ function getAllProduct()
         <td>'.$data[1].'</td>
         <td>'.$data[2].'</td>
         <td>'.$data[3].'</td>
-        <td> <input style="width: 94px;" type="color" value="'.$data[5].'"/></td>
         <td>'.$data[4].'</td>
+        <td> <input style="width: 94px;" type="color" value="'.$data[5].'"/></td>
         <td>'.$data[6].'</td>
         <td>'.$data[8].'</td>
         <td>'.$data[9].'</td>
