@@ -9,8 +9,9 @@
             var design = tr.find("td:eq(2)").text();
             var categorie = tr.find("td:eq(3)").text();
             var unite = tr.find("td:eq(4)").text();
-            var color = tr.find("td:eq(5) input").val();
-            var quantit = tr.find("td:eq(6)").text();
+            var quantit = tr.find("td:eq(5)").text();
+            var color = tr.find("td:eq(6) input").val();
+           
             var date = tr.find("td:eq(7)").text();
             var etat = tr.find("td:eq(8)").text();
             var stocklimit = tr.find("td:eq(9)").text();
@@ -35,8 +36,8 @@
             var design = tr.find("td:eq(2)").text();
             var categorie = tr.find("td:eq(3)").text();
             var unite = tr.find("td:eq(4)").text();
-            var color = tr.find("td:eq(5) input").val();
-            var quantit = tr.find("td:eq(6)").text();
+            var quantit = tr.find("td:eq(5)").text();
+            var color = tr.find("td:eq(6) input").val();
             var date = tr.find("td:eq(7)").text();
             var etat = tr.find("td:eq(8)").text();
             var stocklimit = tr.find("td:eq(9)").text();

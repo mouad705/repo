@@ -97,6 +97,28 @@ function updateCommand($id_client,$nom,$tv,$remis,$etat,$prix_total)
     }
 }
 
+//affecter client a une command déja existe
+
+function affectCommand($id,$id_client,$nom,$total)
+{
+    try {
+        $con = getDatabaseConnexion();
+        $requete = "UPDATE `command` SET `id_client`='$id_client',`nom`='$nom',`prix_total`='$total' WHERE id='$id'";
+        $stmt = $con->query($requete);
+
+    } catch (PDOException $e) {
+        echo $requete . "<br>" . $e->getMessage();
+    }
+}
+
+
+
+
+
+
+
+
+
 // suprime un user
 function deleteCommand($id)
 {

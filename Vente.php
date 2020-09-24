@@ -4,6 +4,8 @@
       <div class="widget-title">
         <span class="icon"> <i class="icon-list"></i> </span>
         <h5>Full Width <code>class=Span12</code></h5>
+
+
       </div>
       <div class="widget-content">
         <form action="" method="post">
@@ -30,7 +32,7 @@
             </div>
           </div>
         </form>
-        <div class="span2">
+        <div class="span3">
           <button onclick="$('#ajouter_client').modal('show')" class="btn btn-success">
             Ajouter Client<i class="icon-user"></i>
           </button>
@@ -131,7 +133,7 @@
 <!--*************** vente par lecteur code bar *******/ -->
 
 <div class="row-fluid">
-  <div class="span6">
+  <div class="span4">
     <div class="col">
       <label for="">Quanite :</label>
       <input type="number" name="" value="" />
@@ -142,7 +144,7 @@
       <input id="hide_quantite" type="hidden" name="" />
     </div>
   </div>
-  <div class="span6">
+  <div class="span4">
     <div style="display: none;" class="alert alert-danger" role="alert">
       <strong></strong>
     </div>
@@ -150,11 +152,20 @@
       <strong></strong>
     </div>
   </div>
+  <div class="span4">
+    <div class="quick-actions_homepage">
+      <ul class="quick-actions">
+        <li class="bg_lg span9"> <a> <i id="test" class="icon-money"></i></a></li>
+      </ul>
+    </div>
+  </div>
 </div>
 </div>
 
 <script>
   $(document).ready(function () {
+
+
     function autoSave() {
       var id = $("#codebar").val();
 
@@ -181,8 +192,19 @@
     <div class="widget-box">
       <div class="widget-title">
         <span class="icon"> <i class="icon-list"></i> </span>
-        <h5 id="command_nom"></h5>
-        <label id="command_id"></label>
+        <div class="row-fluid">
+          <div class="span3">
+            <h5 id="command_nom"></h5>
+            <label id="command_id"></label>
+          </div>
+          <div class="span">
+            <label style="display: none;" id="id_client_effect"></label>
+          </div>
+          <div class="span2">
+            <input onclick="javascript:AFFECT_CLIENT_TO_COMMAND()" class="btn btn-primary" type="button"
+              value="affecter Command">
+          </div>
+        </div>
       </div>
       <div class="widget-content">
         <table class="table table-bordered table-inverse table-responsive">
@@ -206,6 +228,7 @@
       <div class="widget-title">
         <span class="icon"> <i class="icon-list"></i> </span>
         <h5>Half Width <code>class=Span6</code></h5>
+        <input onclick="javascript:AFFECT_CLIENT_TO_COMMAND()" class="btn btn-primary" type="button" value="Valider command">
       </div>
       <div class="widget-content">
         <div class="span4">
@@ -258,7 +281,12 @@
     var nom_cmd = $("#nom_cmd").val();
     getclient();
     viewcommand();
-    Ajoutercommand(id_client, nom_cmd);
+    document.onkeydown = function (e) {
+      if (e.keyCode == 32) {
+        Ajoutercommand(id_client, nom_cmd);
+      }
+    };
+
     $("#tablesearchclt").on("click", "#addclt", function () {
       var tab = $(this).closest("tr");
       var id = tab.find("td:eq(0)").text();
@@ -267,15 +295,19 @@
 
       $("#nom_cmd").val(nom_client + "-" + tel_client);
       $("#id_client").val(id);
+      $("#command_nom").text(nom_client);
+      $("#id_client_effect").text(id);
     });
 
     //SCRIPT DE SELECTION LA COMMAND OU PUT AJOUTER LES Produit
     $("#tablecommand").on("click", "#selectcmd", function () {
       var tab = $(this).closest("tr");
       var id = tab.find("td:eq(0)").text();
+      var id_client=tab.find("td:eq(1)").text();
       var nom_cmd = tab.find("td:eq(2)").text();
       $("#command_id").text(id);
       $("#command_nom").text(nom_cmd);
+      $("#id_client_effect").text(id_client);
       $("#list_command").modal("hide");
     });
   });
@@ -296,12 +328,48 @@
       if (this.readyState == 4 && this.status == 200) {
         if (this.responseText == this.responseText) {
           $("#command_id").text(this.responseText);
-          alert(this.responseText);
+          viewcommand();
         } else {
           alert("bad!!, ");
         }
       }
     };
+  }
+
+  // affecter client a un comment déja exist
+  var somme = 0;
+
+  function AFFECT_CLIENT_TO_COMMAND() {
+    var af_id_cmd = $("#command_id").text();
+    var af_nom_cmd = $("#command_nom").text();
+    var af_id_client = $("#id_client_effect").text();
+    var af_total_cmd=somme;
+    $.ajax({
+      type: "POST",
+      url: "Config/dossier_command/edite.php",
+      data: {
+        af_id_cmd: af_id_cmd,
+        af_nom_cmd: af_nom_cmd,
+        af_id_client: af_id_client,
+        af_total_cmd:af_total_cmd
+      },
+      success: function (response) {
+        if (response == 1) {
+
+          $(".alert-success strong").append("Opertion effectuer avec Success");
+          $(".alert-success").fadeIn();
+          $(".alert-success").fadeOut("slow");
+          viewcommand();
+        } else {
+
+          $(".alert-danger strong").append("Opertion echec");
+          $(".alert-danger").fadeIn();
+          $(".alert-danger").fadeOut("slow");
+
+        }
+
+      }
+    });
   }
 
   /*************************************************************/
@@ -354,6 +422,7 @@
           var total = quantite * prix;
           var total_sp = coeff * quantite;
           var nom_produit = row[i].designation;
+
         }
         $("input[name=ad_prod_id").val("");
         $.ajax({
@@ -378,7 +447,11 @@
           quantite,
           total
         );
+
+        somme = somme + total;
+        $("#test").text(somme + " HD");
         update_quantite_produite(total_sp, id_pp);
+
         $("input[name=ad_prod_id").val("");
 
         //  }
@@ -396,10 +469,18 @@
         id_pp: id_pp
       },
       success: function (data) {
-        $(".alert-success strong").text("");
-        $(".alert-success strong").text("Bien Ajouter");
-        $(".alert-success").fadeIn();
-        $(".alert-success").fadeOut(2000, "slow");
+        if (data == 1) {
+
+          $(".alert-success strong").text("");
+          $(".alert-success strong").text("Bien Ajouter");
+          $(".alert-success").fadeIn();
+          $(".alert-success").fadeOut("slow");
+
+        } else {
+          $(".alert-danger strong").text("errur de synthax verfier votre donneé");
+          $(".alert-danger").fadeIn();
+          $(".alert-danger").fadeOut("slow");
+        }
 
       }
     });
@@ -424,6 +505,7 @@
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
+
         var ligne =
           "<tr>" +
           "<td>" +
@@ -446,6 +528,9 @@
           "</td>" +
           "</tr>";
         $("#table2").append(ligne);
+
+
+
       }
     };
     xmlhttp.open("POST", "Config/dossier_DetailCommand/add.php", true);
@@ -457,11 +542,13 @@
       var id_cmd = $("#command_id").text();
       var currant = $(this).closest("tr");
       var id_produit = currant.find("td:eq(0)").text();
+      var id_pp = currant.find("td:eq(2)").text();
       var nom_produit = currant.find("td:eq(3)").text();
       var quantite = 1;
       var coeff = currant.find("td:eq(4)").text();
       var prix = currant.find("td:eq(5)").text();
       var total = quantite * prix;
+      var total_sp = coeff * quantite;
       str.append("id_cmd", id_cmd);
       str.append("id_produit", id_produit);
       str.append("nom_produit", nom_produit);
@@ -488,8 +575,14 @@
             "<td>" +
             prix +
             "</td>" +
+            "<td>" +
+            total +
+            "</td>" +
             "</tr>";
           $("#table2").append(ligne);
+          update_quantite_produite(total_sp, id_pp)
+          somme = somme + total;
+          $("#test").text(somme + " HD");
         }
       };
       xmlhttp.open("POST", "Config/dossier_DetailCommand/add.php", true);

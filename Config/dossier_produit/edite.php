@@ -41,7 +41,10 @@ if (move_uploaded_file($_FILES['ed_imges']['tmp_name'], $uploadfile)) {
         $total_sp=$_POST["total_sp"];
         $id_pp=$_POST["id_pp"];
         UPDATE_QUANTITE_PRODUIT($total_sp,$id_pp);
-        # code...
+        echo 1;
+    }
+    else {
+        echo 0;
     }
 
 ?>
