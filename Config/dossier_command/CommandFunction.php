@@ -30,8 +30,8 @@ while ($data=$rows->fetch()) {
 <td>'.$data[5].'</td>
 <td>'.$data[6].'</td>
 <td>
-<button class="btn btn-primary"> <i class="icon-folder-open"></i> </button>
-<button id="selectcmd" class="btn btn-primary"> <i class="icon-plus"></i> </button>
+<button id="foldercmd" class="btn btn-primary"> <i class="icon-folder-open"></i> </button>
+<button id="selectcmd" class="btn btn-primary"><i class="icon-plus"></i></button>
 </td>
 
 

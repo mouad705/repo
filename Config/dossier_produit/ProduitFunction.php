@@ -69,11 +69,9 @@ function readProduct($id)
     $requete = "SELECT * from produit where id = '$id' ";
     $stmt = $con->query($requete);
     $row = $stmt->fetch();
+echo $row[4];
      
-          
-    
-    
-    echo $row[4];
+
 
 }
 

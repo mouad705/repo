@@ -460,9 +460,24 @@
  if (myParam == "produit") {
   $('.container-fluid').load('./Produite.php');
 }
+if (myParam == "command") {
+  $('.container-fluid').load('./Commande.php');
+}
 
 
     </script>
+
+<?php
+if (isset($_POST["action"]) && $_POST["action"]=="command") {
+?>
+<script>
+     $('.container-fluid').load('./Commande.php'); 
+</script>
+<?php
+}
+?>
+
+
 </body>
 
 </html>

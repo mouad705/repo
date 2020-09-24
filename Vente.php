@@ -188,7 +188,7 @@
 
 <!--/***********************************************/-->
 <div class="row-fluid">
-  <div class="span6">
+  <div class="span7">
     <div class="widget-box">
       <div class="widget-title">
         <span class="icon"> <i class="icon-list"></i> </span>
@@ -212,10 +212,13 @@
             <tr>
               <th>ID</th>
               <th>CODE</th>
+              <th style="display:none;">ID-PP</th>
               <th>DESGIN</th>
               <th>QUANTITE</th>
+              <th style="display:none;">COEFF</th>
               <th>PRIX</th>
               <th>TOTAL</th>
+              <th><span><i class="icon-bar-chart"></i></span></th>
             </tr>
           </thead>
           <tbody id="table2"></tbody>
@@ -223,12 +226,13 @@
       </div>
     </div>
   </div>
-  <div class="span6">
+  <div class="span5">
     <div class="widget-box">
       <div class="widget-title">
         <span class="icon"> <i class="icon-list"></i> </span>
         <h5>Half Width <code>class=Span6</code></h5>
-        <input onclick="javascript:AFFECT_CLIENT_TO_COMMAND()" class="btn btn-primary" type="button" value="Valider command">
+        <input onclick="javascript:AFFECT_CLIENT_TO_COMMAND()" class="btn btn-primary" type="button"
+          value="Valider command">
       </div>
       <div class="widget-content">
         <div class="span4">
@@ -263,6 +267,28 @@
 </div>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
+  function testquantitestock(id_pp) {
+
+    $.ajax({
+      type: "POST",
+      url: "Config/dossier_produit/view.php",
+      data: {
+        id_pp: id_pp
+      },
+      success: function (data) {
+        $("#hide_quantite").val(data);
+      },
+    });
+
+
+  }
+
+
+
+
+
+
+
   $(document).ready(function () {
     /*function check(e)
   {
@@ -276,6 +302,30 @@
           return false;
   };
   */
+
+    // move to folder command
+
+    $("#tablecommand").on("click", "#foldercmd", function (data) {
+      var currantrow = $(this).closest("tr");
+      var id_cmd = currantrow.find("td:eq(0)").text();
+      $.ajax({
+        type: "POST",
+        url: "./index.php",
+        data: {
+          action: "command",
+          id_cmd: id_cmd
+        },
+        success: function (response) {
+
+          window.location.href = "./index.php?id=command";
+
+        }
+      });
+    })
+
+
+
+
 
     var id_client = $("#id_client").val();
     var nom_cmd = $("#nom_cmd").val();
@@ -303,7 +353,7 @@
     $("#tablecommand").on("click", "#selectcmd", function () {
       var tab = $(this).closest("tr");
       var id = tab.find("td:eq(0)").text();
-      var id_client=tab.find("td:eq(1)").text();
+      var id_client = tab.find("td:eq(1)").text();
       var nom_cmd = tab.find("td:eq(2)").text();
       $("#command_id").text(id);
       $("#command_nom").text(nom_cmd);
@@ -343,7 +393,7 @@
     var af_id_cmd = $("#command_id").text();
     var af_nom_cmd = $("#command_nom").text();
     var af_id_client = $("#id_client_effect").text();
-    var af_total_cmd=somme;
+    var af_total_cmd = somme;
     $.ajax({
       type: "POST",
       url: "Config/dossier_command/edite.php",
@@ -351,7 +401,7 @@
         af_id_cmd: af_id_cmd,
         af_nom_cmd: af_nom_cmd,
         af_id_client: af_id_client,
-        af_total_cmd:af_total_cmd
+        af_total_cmd: af_total_cmd
       },
       success: function (response) {
         if (response == 1) {
@@ -425,18 +475,9 @@
 
         }
         $("input[name=ad_prod_id").val("");
-        $.ajax({
-          type: "POST",
-          url: "Config/dossier_produit/view.php",
-          data: {
-            id_pp: id_pp
-          },
-          success: function (data) {
-            $("#hide_quantite").val(data);
-          },
-        });
 
-        //   var test = $("#hide_quantite").val();
+
+
         var id_cmd = $("#command_id").text();
         //   if (test > total_sp) {
         addlignecommand(
@@ -537,6 +578,39 @@
     xmlhttp.send(str);
   }
   $(document).ready(function () {
+    //verfier la quantit de chaque produite ajouter a la ligne commande
+    $("#table2").on("click", "#verfier", function () {
+      var currantrow = $(this).closest("tr");
+      var id_test = currantrow.find("td:eq(2)").text();
+      var total_test = currantrow.find("td:eq(5)").text();
+      $.ajax({
+        type: "POST",
+        url: "Config/dossier_produit/view.php",
+        data: {
+          id_pp: id_test
+        },
+        success: function (data) {
+          if (data > total_test) {
+            alert("le stock est disponible")
+
+          }
+          if (data = total_test) {
+            alert("le stock sera vides apres cette operation");
+
+          }
+          if (data < total_test) {
+            alert('le stock est vide ou insuffisant');
+
+          }
+        },
+      });
+    })
+
+
+
+
+
+
     $("#table1").on("click", "#add", function () {
       var str = new FormData();
       var id_cmd = $("#command_id").text();
@@ -549,48 +623,84 @@
       var prix = currant.find("td:eq(5)").text();
       var total = quantite * prix;
       var total_sp = coeff * quantite;
+      testquantitestock(id_pp);
       str.append("id_cmd", id_cmd);
       str.append("id_produit", id_produit);
       str.append("nom_produit", nom_produit);
       str.append("prix", prix);
       str.append("quantite", quantite);
       str.append("total", total);
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          var ligne =
-            "<tr>" +
-            "<td>" +
-            this.responseText +
-            "</td>" +
-            "<td>" +
-            id_produit +
-            "</td>" +
-            "<td>" +
-            nom_produit +
-            "</td>" +
-            '<td><input type="number" class="input-mini" value="' +
-            quantite +
-            '" /></td>' +
-            "<td>" +
-            prix +
-            "</td>" +
-            "<td>" +
-            total +
-            "</td>" +
-            "</tr>";
-          $("#table2").append(ligne);
-          update_quantite_produite(total_sp, id_pp)
-          somme = somme + total;
-          $("#test").text(somme + " HD");
-        }
-      };
-      xmlhttp.open("POST", "Config/dossier_DetailCommand/add.php", true);
-      xmlhttp.send(str);
+      var quantite_total;
+
+      // test if la quantite est null
+      $.ajax({
+        type: "POST",
+        url: "Config/dossier_produit/view.php",
+        data: {
+          id_pp: id_pp
+        },
+        success: function (data) {
+
+          if (data >= total_sp) {
+
+
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+              if (this.readyState == 4 && this.status == 200) {
+                var ligne =
+                  "<tr>" +
+                  "<td>" +
+                  this.responseText +
+                  "</td>" +
+                  "<td>" +
+                  id_produit +
+                  "</td>" +
+                  "<td style='display:none;'>" +
+                  id_pp +
+                  "</td>" +
+                  "<td>" +
+                  nom_produit +
+                  "</td>" +
+                  '<td><input type="number" class="input-mini" value="' +
+                  quantite +
+                  '" /></td>' +
+                  "<td style='display:none;'>" +
+                  total_sp +
+                  "</td>" +
+                  "<td>" +
+                  prix +
+                  "</td>" +
+                  "<td>" +
+                  total +
+                  "</td>" +
+                  "<td><input id='verfier' class='btn btn-primary' type='button' value='verfire' /></td>" +
+                  "</tr>";
+                $("#table2").append(ligne);
+                update_quantite_produite(total_sp, id_pp)
+                somme = somme + total;
+                $("#test").text(somme + " HD");
+              }
+            };
+            xmlhttp.open("POST", "Config/dossier_DetailCommand/add.php", true);
+            xmlhttp.send(str);
+
+          } else {
+            alert("Stock est vide ou insuffusant");
+
+          }
+        },
+      });
+
+
+
+
     });
   });
   /***************************************************/
-  function testquantitestock(id_pp) {}
+
+
+
   /**********************************************/
   function showResult(str) {
     if (str.length == 0) {
