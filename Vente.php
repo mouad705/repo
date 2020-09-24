@@ -324,9 +324,6 @@
     })
 
 
-
-
-
     var id_client = $("#id_client").val();
     var nom_cmd = $("#nom_cmd").val();
     getclient();
