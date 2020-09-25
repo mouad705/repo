@@ -134,15 +134,13 @@
 
 <div class="row-fluid">
   <div class="span4">
-    <div class="col">
-      <label for="">Quanite :</label>
-      <input type="number" name="" value="" />
-    </div>
-    <div class="col">
-      <label for="">Code Produite :</label>
-      <input id="codebar" type="text" name="ad_prod_id" />
-      <input id="hide_quantite" type="hidden" name="" />
-    </div>
+
+    <label for="">Quanite :</label>
+    <input type="number" name="" value="" />
+    <label for="">Code Produite :</label>
+    <input class="input-lg" id="codebar" type="text" name="ad_prod_id" />
+    <input id="hide_quantite" type="hidden" name="" />
+
   </div>
   <div class="span4">
     <div style="display: none;" class="alert alert-danger" role="alert">
@@ -308,20 +306,9 @@
     $("#tablecommand").on("click", "#foldercmd", function (data) {
       var currantrow = $(this).closest("tr");
       var id_cmd = currantrow.find("td:eq(0)").text();
-      $.ajax({
-        type: "POST",
-        url: "./index.php",
-        data: {
-          action: "command",
-          id_cmd: id_cmd
-        },
-        success: function (response) {
+      window.location.href = "./index.php?cmd=" + id_cmd;
 
-          window.location.href = "./index.php?id=command";
-
-        }
-      });
-    })
+    });
 
 
     var id_client = $("#id_client").val();
@@ -440,6 +427,8 @@
   /*********************************************************************/
   // affichier list commandes
   function viewcommand() {
+    var str = new FormData();
+    str.append('action', 'allcommand');
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
@@ -447,7 +436,7 @@
       }
     };
     xmlhttp.open("POST", "./Config/dossier_command/view.php", true);
-    xmlhttp.send();
+    xmlhttp.send(str);
   }
   /*************************************************/
   function vent(id_produit) {

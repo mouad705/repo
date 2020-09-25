@@ -1,39 +1,68 @@
+<style>
+    #info_cmd td {
+        font-size: larger;
+
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        //methode ajax for shox data command;
+        var id_cmd = location.search.split('cmd=')[1];
+        alert(id_cmd);
+        $.ajax({
+            type: "POST",
+            url: "./Config/dossier_command/view.php",
+            data: {
+                id_cmd: id_cmd
+            },
+            dataType: 'JSON',
+            success: function (response) {
+
+                var data = '<table class="table table-bordered data-table"><thead>';
+
+                $.each(response, function (key, value) {
+
+                    data += '<tr>' +
+                        '<th>Commend N° :</th>' +
+                        '<th>' + value[key].id + '</th>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<th>Nom de Client :</th>' +
+                        '<th>' + value[key].nom + '</th>' +
+                        '</tr>';
+
+                });
+                data += '</thead></table>';
+                $('#info_cmd').html(data);
+            }
+
+        });
+        // methode ajax for show data ligne command
+
+        $.ajax({
+            type: "POST",
+            url: "./Config/dossier_DetailCommand/view.php",
+            data: {
+                id_cmd: id_cmd
+            },
+            success: function (response) {
+
+            }
+        });
+
+    });
+</script>
+
+
 <div class="row-fluid">
     <div class="span12">
         <div class="widget-box">
             <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-                <h5>Form validation</h5>
+                <h5>Information De Commande</h5>
             </div>
-            <div class="widget-content nopadding">
-                <form class="form-horizontal" method="post" action="#" name="basic_validate" id="basic_validate" novalidate="novalidate">
-                    <div class="control-group">
-                        <label class="control-label">Your Name</label>
-                        <div class="controls">
-                            <input type="text" name="required" id="required">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Your Email</label>
-                        <div class="controls">
-                            <input type="text" name="email" id="email">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Date (only Number)</label>
-                        <div class="controls">
-                            <input type="text" name="date" id="date">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">URL (Start with http://)</label>
-                        <div class="controls">
-                            <input type="text" name="url" id="url">
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <input type="submit" value="Validate" class="btn btn-success">
-                    </div>
-                </form>
+            <div id="info_cmd" class="widget-content nopadding">
+
             </div>
         </div>
     </div>

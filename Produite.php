@@ -1,7 +1,17 @@
-﻿<script>
-    $(document).ready(function() {
+﻿<style>
+    [type="file"] {
+        position: absolute;
+        z-index: -1;
+        top: 6px;
+        left: 0;
+        font-size: 15px;
+        color: rgb(153, 153, 153);
+    }
+</style>
+<script>
+    $(document).ready(function () {
         //***** View data in edite Modal *******/
-        $("#produitdata").on("click", "#edite", function() {
+        $("#produitdata").on("click", "#edite", function () {
             var tr = $(this).closest("tr");
             $("#editeproduite").modal("show");
             var id = tr.find("td:eq(0)").text();
@@ -11,7 +21,7 @@
             var unite = tr.find("td:eq(4)").text();
             var quantit = tr.find("td:eq(5)").text();
             var color = tr.find("td:eq(6) input").val();
-           
+
             var date = tr.find("td:eq(7)").text();
             var etat = tr.find("td:eq(8)").text();
             var stocklimit = tr.find("td:eq(9)").text();
@@ -28,7 +38,7 @@
         });
 
         /***** Fin******/
-        $("#produitdata").on("click", "#view", function() {
+        $("#produitdata").on("click", "#view", function () {
             $("#produitview").modal("show");
             var tr = $(this).closest("tr");
             var id = tr.find("td:eq(0)").text();
@@ -80,6 +90,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
                     <div class="control-group">
                         <label class="control-label">Designiation</label>
                         <div class="controls">
@@ -97,7 +108,7 @@
                                 while ($data = $rows->fetch()) {
                                     $ligne =
                                         '
-                <option value="' .
+                                      <option value="' .
                                         $data[0] .
                                         '">' .
                                         $data[1] .
@@ -162,9 +173,17 @@
                     <div class="control-group">
                         <label class="control-label">Image :</label>
                         <div class="controls">
-                            <input onchange="document.getElementById('ui').src = window.URL.createObjectURL(this.files[0])" type="file" name="imges" id="imges" /><br />
-                            <img width="200" height="250" src="uploads/uploade.jpg" id="ui" value="Uploade Images" alt="Uploade Image" />
+                            <input class="file"
+                                onchange="document.getElementById('ui').src = window.URL.createObjectURL(this.files[0])"
+                                type="file" name="imges" id="imges" />
                         </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <img width="200" height="250" src="uploads/uploade.jpg" id="ui" value="Uploade Images"
+                                alt="Uploade Image" />
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -239,7 +258,8 @@
 <!-- Button trigger modal -->
 
 <!-- Modal -->
-<div style="display: none;" class="modal fade" id="editeproduite" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div style="display: none;" class="modal fade" id="editeproduite" tabindex="-1" role="dialog"
+    aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form class="form-horizontal" method="post" enctype="multipart/form-data" action="" id="edite">
             <div class="modal-content">
@@ -337,8 +357,11 @@
                     <div class="control-group">
                         <label class="control-label">Image :</label>
                         <div class="controls">
-                            <input onchange="document.getElementById('uu').src = window.URL.createObjectURL(this.files[0])" type="file" name="ed_imges" id="ed_imges" /><br />
-                            <img width="200" height="250" src="uploads/uploade.jpg" id="uu" value="Uploade Images" alt="Uploade Image" />
+                            <input
+                                onchange="document.getElementById('uu').src = window.URL.createObjectURL(this.files[0])"
+                                type="file" name="ed_imges" id="ed_imges" /><br />
+                            <img width="200" height="250" src="uploads/uploade.jpg" id="uu" value="Uploade Images"
+                                alt="Uploade Image" />
                         </div>
                     </div>
                 </div>
@@ -357,7 +380,8 @@
 
 <!-- Modal View Data -->
 
-<div style="display: none;" class="modal fade  bd-example-modal-xl" id="produitview" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div style="display: none;" class="modal fade  bd-example-modal-xl" id="produitview" tabindex="-1" role="dialog"
+    aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -411,7 +435,8 @@
                             <tr>
                                 <td><button type="button" id="addvarient" class="btn btn-primary">Ajouter les Varient de
                                         Produite</button></td>
-                                <td><button onclick="javascript:ViewVarient()" type="button" id="listvarient" class="btn btn-primary">List Varient de Produite</button>
+                                <td><button onclick="javascript:ViewVarient()" type="button" id="listvarient"
+                                        class="btn btn-primary">List Varient de Produite</button>
                                 </td>
                             </tr>
 
@@ -441,31 +466,34 @@
             data: {
                 id: id
             },
-            
-            success: function(data) {
-                var row=JSON.parse(data);
-                var ligne="";
-                for(var val=0;val<row.length;val++){
-                console.log(row);
-                  
-                    ligne+='<tr>';
-                        ligne+='<td>'+row[val].id+'</td>';
-                        ligne+='<td><img width="50" height="50" src="./'+row[val].images+'"></td>';
-                        ligne+='<td>'+row[val].designation+'</td>';
-                        ligne+='<td>'+row[val].unite+'</td>';
-                        ligne+='<td>'+row[val].rapport+'</td>';
-                        ligne+='<td>'+row[val].prix_vent+'</td>';
-                        ligne+='<td>'+row[val].description+'</td>';
-                        ligne+='<td>';
-                        ligne+='<button id="edite" class="btn btn-primary"><i class="icon-edit"></i></button>';
-                        ligne+='<button id="delete" class="btn btn-danger"><i class="icon-trash"></i></button>';
-                        ligne+='<button id="view" class="btn btn-default"><i class="icon-eye-open"></i></button>';
-                        ligne+='</td>';
-                        ligne+='</tr>';
-                           
-        }
-        
-      $("#tablevarient").html(ligne);
+
+            success: function (data) {
+                var row = JSON.parse(data);
+                var ligne = "";
+                for (var val = 0; val < row.length; val++) {
+                    console.log(row);
+
+                    ligne += '<tr>';
+                    ligne += '<td>' + row[val].id + '</td>';
+                    ligne += '<td><img width="50" height="50" src="./' + row[val].images + '"></td>';
+                    ligne += '<td>' + row[val].designation + '</td>';
+                    ligne += '<td>' + row[val].unite + '</td>';
+                    ligne += '<td>' + row[val].rapport + '</td>';
+                    ligne += '<td>' + row[val].prix_vent + '</td>';
+                    ligne += '<td>' + row[val].description + '</td>';
+                    ligne += '<td>';
+                    ligne +=
+                        '<button id="edite" class="btn btn-primary"><i class="icon-edit"></i></button>';
+                    ligne +=
+                        '<button id="delete" class="btn btn-danger"><i class="icon-trash"></i></button>';
+                    ligne +=
+                        '<button id="view" class="btn btn-default"><i class="icon-eye-open"></i></button>';
+                    ligne += '</td>';
+                    ligne += '</tr>';
+
+                }
+
+                $("#tablevarient").html(ligne);
             }
 
         });
@@ -477,7 +505,8 @@
 
 <!--  Modal add varient  -->
 
-<div style="display:none;" class="modal fade modal-lg" id="modaladdvarient" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div style="display:none;" class="modal fade modal-lg" id="modaladdvarient" tabindex="-1" role="dialog"
+    aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog " role="document">
         <form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
             <div class="modal-content">
@@ -493,14 +522,16 @@
                     <div class="row-fluid">
                         <div style="width: 100%;" class="span6">
                             <div class="widget-box">
-                                <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                                <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i>
+                                    </span>
 
                                 </div>
                                 <div class="widget-content nopadding">
                                     <div class="control-group">
                                         <label class="control-label">id Produit</label>
                                         <div class="controls">
-                                            <input type="text" name="sp_id" id="sp_id" /><input id="generation" type="button" class="btn btn-primary" value="Genere Code">
+                                            <input type="text" name="sp_id" id="sp_id" /><input id="generation"
+                                                type="button" class="btn btn-primary" value="Genere Code">
                                             <input type="hidden" name="sp_id_pp" id="sp_id_pp">
                                         </div>
                                     </div>
@@ -1018,8 +1049,6 @@
         </form>
     </div>
 </div>
-
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.ui.custom.js"></script>
 <script src="js/bootstrap.min.js"></script>

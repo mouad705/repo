@@ -66,15 +66,18 @@ function createCommand($id_client,$nom,$tv,$remis,$etat,$prix_total)
 }
 
 //recupere un user
-function readCommand($id_client)
+function readCommand($id_cmd)
 {
     $con = getDatabaseConnexion();
-    $requete = "SELECT * from command where id_client = '$id_client' ";
+    $requete = "SELECT * from command where id = '$id_cmd'";
     $stmt = $con->query($requete);
     $row = $stmt->fetchAll();
+    $ligne =array();
     if (!empty($row)) {
-        return $row[0];
+        $ligne[]=$row;
+        echo json_encode($ligne);
     }
+   
 }
 
 //met � jour le user

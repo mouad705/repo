@@ -442,6 +442,7 @@
     <script type="text/javascript">
 
     var myParam = location.search.split('id=')[1];
+    var id_cmd = location.search.split('cmd=')[1];
       if (myParam == "vent") {
        $('.container-fluid').load('./Vente.php');
      }
@@ -460,22 +461,23 @@
  if (myParam == "produit") {
   $('.container-fluid').load('./Produite.php');
 }
+
 if (myParam == "command") {
   $('.container-fluid').load('./Commande.php');
 }
 
-
     </script>
 
+
 <?php
-if (isset($_POST["action"]) && $_POST["action"]=="command") {
-?>
-<script>
-     $('.container-fluid').load('./Commande.php'); 
-</script>
-<?php
+if (isset($_GET["cmd"])) {
+    echo'<script>';
+    echo "$('.container-fluid').load('./Commande.php')";
+    echo "</script>";
 }
 ?>
+
+
 
 
 </body>
