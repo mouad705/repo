@@ -1,5 +1,98 @@
 <div class="row-fluid">
-  <div class="span12">
+  <div class="span6">
+    <div class="widget-box">
+      <div class="widget-title">
+        <span class="icon"> <i class="icon-list"></i> </span>
+        <h5>Full Width <code>class=Span12</code></h5>
+
+
+      </div>
+      <div width="100%" class="widget-content">
+        <form action="" method="post">
+          <table class="table table-responsive">
+            <tr>
+              <td>
+                <div class="form-group">
+                  <input onkeyup="searchclient(this.value)" type="text" class="form-control" name="" id="list_search"
+                    aria-describedby="helpId" placeholder="Recherche Client" />
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <input style="width: 180px;" type="text" class="form-control" name="nom_cmd" id="nom_cmd"
+                    value="Guest" aria-describedby="helpId" placeholder="Nom de Commade" />
+                  <input type="hidden" value="89" name="id_client" id="id_client" />
+                </div>
+              </td>
+              <td>
+                <div class="form-group">
+                  <input onclick="javascript:Ajoutercommand()" type="button" class="btn btn-primary" name=""
+                    id="addcommad" value="Crée" />
+                </div>
+              </td>
+            </tr>
+          </table>
+
+
+
+          <!--
+
+          <div width="100%" class="span3">
+            <div class="form-group">
+              <input onkeyup="searchclient(this.value)" type="text" class="form-control" name="" id="list_search"
+                aria-describedby="helpId" placeholder="Recherche Client" />
+            </div>
+          </div>
+          <div width="100%" class="span3">
+            <div class="form-group">
+              <input type="text" class="form-control" name="nom_cmd" id="nom_cmd" value="Guest"
+                aria-describedby="helpId" placeholder="Nom de Commade" />
+              <input type="hidden" value="89" name="id_client" id="id_client" />
+            </div>
+          </div>
+          <div width="100%" class="span2">
+            <div class="form-group">
+              <input onclick="javascript:Ajoutercommand()" type="button" class="btn btn-primary" name="" id="addcommad"
+                value="Crée" />
+            </div>
+          </div>
+-->
+        </form>
+
+
+        <div class="row-fluid">
+          <div style="width: 508px;" class="col-lg-6">
+            <div class="widget-content" id="searchzone">
+              <table class="table">
+                <thead></thead>
+                <tbody id="tablesearchclt"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        <!--
+        <div class="span6">
+          <div class="span5" id="searchzone">
+            <table class="table">
+              <thead></thead>
+              <tbody id="tablesearchclt"></tbody>
+            </table>
+          </div>
+        </div>
+      -->
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="span6">
+
     <div style="display: grid" class="widget-box">
       <div class="widget-title">
         <span class="icon"> <i class="icon-list"></i> </span>
@@ -8,30 +101,7 @@
 
       </div>
       <div class="widget-content">
-        <form action="" method="post">
-          <div class="span2">
-            <div class="form-group">
-              <label for=""></label>
-              <input onkeyup="searchclient(this.value)" type="text" class="form-control" name="" id="list_search"
-                aria-describedby="helpId" placeholder="Recherche Client" />
-            </div>
-          </div>
-          <div class="span2">
-            <div class="form-group">
-              <label for=""></label>
-              <input type="text" class="form-control" name="nom_cmd" id="nom_cmd" value="Guest"
-                aria-describedby="helpId" placeholder="Nom de Commade" />
-              <input type="hidden" value="89" name="id_client" id="id_client" />
-            </div>
-          </div>
-          <div class="span1">
-            <div class="form-group">
-              <label for=""></label>
-              <input onclick="javascript:Ajoutercommand()" type="button" class="btn btn-primary" name="" id="addcommad"
-                value="Crée" />
-            </div>
-          </div>
-        </form>
+
         <div class="span3">
           <button onclick="$('#ajouter_client').modal('show')" class="btn btn-success">
             Ajouter Client<i class="icon-user"></i>
@@ -41,14 +111,6 @@
           <button onclick="$('#list_command').modal('show')" class="btn btn-success">
             Choisir Command<i class="icon-th-list"></i>
           </button>
-        </div>
-        <div class="span12">
-          <div class="span5" id="searchzone">
-            <table class="table">
-              <thead></thead>
-              <tbody id="tablesearchclt"></tbody>
-            </table>
-          </div>
         </div>
       </div>
     </div>
@@ -136,11 +198,21 @@
   <div class="span4">
 
     <label for="">Quanite :</label>
-    <input type="number" name="" value="" />
+    <input placeholder="Saisir la Quantite" type="text" name=quantite" id="quantite_aj" />
     <label for="">Code Produite :</label>
-    <input class="input-lg" id="codebar" type="text" name="ad_prod_id" />
+    <input placeholder="Scanner le code Bar de produite" class="input-lg" id="codebar" type="text" name="ad_prod_id" />
     <input id="hide_quantite" type="hidden" name="" />
+    <style>
+      #codebar {
+        height: 50px;
+        width: 553px;
+      }
 
+      #quantite_aj {
+        height: 50px;
+        width: 553px;
+      }
+    </style>
   </div>
   <div class="span4">
     <div style="display: none;" class="alert alert-danger" role="alert">
