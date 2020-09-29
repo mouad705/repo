@@ -19,15 +19,15 @@
               </td>
               <td>
                 <div class="form-group">
-                  <input style="width: 180px;" type="text" class="form-control" name="nom_cmd" id="nom_cmd"
+                  <input style="width: 160px;" type="text" class="form-control" name="nom_cmd" id="nom_cmd"
                     value="Guest" aria-describedby="helpId" placeholder="Nom de Commade" />
                   <input type="hidden" value="89" name="id_client" id="id_client" />
                 </div>
               </td>
               <td>
                 <div class="form-group">
-                  <input onclick="javascript:Ajoutercommand()" type="button" class="btn btn-primary" name=""
-                    id="addcommad" value="Crée" />
+                  <input onclick="javascript:Ajoutercommand($('#id_client').val(),$('#nom_cmd').val())" type="button"
+                    class="btn btn-primary" name="" id="addcommad" value="Crée" />
                 </div>
               </td>
             </tr>
@@ -208,12 +208,12 @@
     <style>
       #codebar {
         height: 50px;
-        width: 553px;
+        width: 518px;
       }
 
       #quantite_aj {
         height: 50px;
-        width: 553px;
+        width: 518px;
       }
     </style>
   </div>
@@ -270,12 +270,12 @@
             <h5 id="command_nom"></h5>
             <label id="command_id"></label>
           </div>
-          <div class="span">
+          <div class="span3">
             <label style="display: none;" id="id_client_effect"></label>
           </div>
           <div class="span2">
-            <input onclick="javascript:AFFECT_CLIENT_TO_COMMAND()" class="btn btn-primary" type="button"
-              value="affecter Command">
+            <input style="margin-top: 4px;" onclick="javascript:AFFECT_CLIENT_TO_COMMAND()" class="btn btn-primary"
+              type="button" value="affecter Command">
           </div>
         </div>
       </div>
@@ -304,8 +304,8 @@
       <div class="widget-title">
         <span class="icon"> <i class="icon-list"></i> </span>
         <h5>Half Width <code>class=Span6</code></h5>
-        <input onclick="javascript:AFFECT_CLIENT_TO_COMMAND()" class="btn btn-primary" type="button"
-          value="Valider command">
+        <input style="margin-top: 4px;" onclick="javascript:AFFECT_CLIENT_TO_COMMAND()" class="btn btn-primary"
+          type="button" value="Valider command">
       </div>
       <div class="widget-content">
         <div class="span4">
@@ -392,6 +392,7 @@
     viewcommand();
     document.onkeydown = function (e) {
       if (e.keyCode == 32) {
+        alert(id_client);
         Ajoutercommand(id_client, nom_cmd);
       }
     };
@@ -406,6 +407,7 @@
       $("#id_client").val(id);
       $("#command_nom").text(nom_client);
       $("#id_client_effect").text(id);
+      alert($("#id_client").val());
     });
 
     //SCRIPT DE SELECTION LA COMMAND OU PUT AJOUTER LES Produit
@@ -424,6 +426,7 @@
 
   /**********************************************************/
   function Ajoutercommand(id_client, nom_cmd) {
+    alert(id_client);
     var str = new FormData();
 
     str.append("id_client", id_client);
