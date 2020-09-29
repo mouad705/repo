@@ -101,17 +101,20 @@
 
       </div>
       <div class="widget-content">
-
-        <div class="span3">
-          <button onclick="$('#ajouter_client').modal('show')" class="btn btn-success">
-            Ajouter Client<i class="icon-user"></i>
-          </button>
-        </div>
-        <div class="span3">
-          <button onclick="$('#list_command').modal('show')" class="btn btn-success">
-            Choisir Command<i class="icon-th-list"></i>
-          </button>
-        </div>
+        <table class="table">
+          <tr>
+            <td>
+              <button onclick="$('#ajouter_client').modal('show')" class="btn btn-success">
+                Ajouter Client<i class="icon-user"></i>
+              </button>
+            </td>
+            <td>
+              <button onclick="$('#list_command').modal('show')" class="btn btn-success">
+                Choisir Command<i class="icon-th-list"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>
