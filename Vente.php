@@ -392,8 +392,9 @@
     viewcommand();
     document.onkeydown = function (e) {
       if (e.keyCode == 32) {
-        alert(id_client);
         Ajoutercommand(id_client, nom_cmd);
+        document.getElementById("#codebar").val("");
+        document.getElementById("#codebar").facus();
       }
     };
 
